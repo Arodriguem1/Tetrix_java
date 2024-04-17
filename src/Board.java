@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -20,6 +21,7 @@ public class Board extends JPanel implements KeyListener{
 
     private Timer looper;
     private Color[][] board = new Color[BOARD_HEIGTH][BOARD_WIDTH];
+    private Random random;
 
     private Color[] colors = {Color.decode("#ed1c24"), Color.decode("#ff7f27"), Color.decode("#fff200"), 
         Color.decode("#22b14c"), Color.decode("#00a2e8"), Color.decode("#a349a4"), Color.decode("#3f48cc")};
@@ -28,6 +30,7 @@ public class Board extends JPanel implements KeyListener{
     private Shape currentShape;
 
     public Board() {
+        random = new Random();
 
         shapes[0] = new Shape(new int[][] {
             {1, 1, 1, 1},
@@ -49,8 +52,8 @@ public class Board extends JPanel implements KeyListener{
         }, this, colors[3]);
         
         shapes[4] = new Shape(new int[][] {
-            {1, 1, 1},
-            {0, 1, 0}
+            {1, 1, 0},
+            {0, 1, 1}
         }, this, colors[4]);
     
         shapes[5] = new Shape(new int[][] {
@@ -83,13 +86,14 @@ public class Board extends JPanel implements KeyListener{
     }
 
     public void setCurrentShape() {
-        currentShape = shapes[1];
+        currentShape = shapes[random.nextInt(shapes.length)];
         currentShape.reset();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         
