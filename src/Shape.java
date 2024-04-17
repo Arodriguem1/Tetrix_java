@@ -22,13 +22,41 @@ public class Shape {
     private boolean collision = false;
 
     private int[][] coords;
+    private Board board;
+    private Color color;
 
     public Shape(int[][] coords, Board board, Color color) {
         this.coords = coords;
+        this.board = board;
+        this.color = color;
+
+    }
+
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
+    public void reset() {
+        this.x = 0;
+        this.y = 0;
+        collision = false;
     }
 
     public void update(){
         if(collision){
+            // Draw de color for board
+            for(int row = 0; row < coords.length; row++){
+                for(int col = 0; col < coords[0].length; col++){
+                    if(coords[row][col] != 0){
+                        board.getBoard()[y + row][x + col] = color;
+                    }
+                }
+            }
+            board.setCurrentShape();
             return;
         }
 

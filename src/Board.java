@@ -19,6 +19,7 @@ public class Board extends JPanel implements KeyListener{
     public static final int BOARD_SIZE = 30;
 
     private Timer looper;
+    private Color[][] board = new Color[BOARD_HEIGTH][BOARD_WIDTH];
 
     private Color[] colors = {Color.decode("#ed1c24"), Color.decode("#ff7f27"), Color.decode("#fff200"), 
         Color.decode("#22b14c"), Color.decode("#00a2e8"), Color.decode("#a349a4"), Color.decode("#3f48cc")};
@@ -81,6 +82,11 @@ public class Board extends JPanel implements KeyListener{
         currentShape.update();
     }
 
+    public void setCurrentShape() {
+        currentShape = shapes[1];
+        currentShape.reset();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -89,6 +95,16 @@ public class Board extends JPanel implements KeyListener{
         
         currentShape.render(g);
         
+        for(int row = 0; row < board.length; row++){
+            for(int col = 0; col < board[row].length; col++){
+               
+                if(board[row][col] != null){
+                    g.setColor(board[row][col]);
+                    g.fillRect(BOARD_SIZE * col, BOARD_SIZE * row, BOARD_SIZE, BOARD_SIZE);
+                }
+            }
+        }
+
         g.setColor(Color.WHITE);
         
         for (int row = 0; row < BOARD_HEIGTH; row++) {
@@ -99,6 +115,10 @@ public class Board extends JPanel implements KeyListener{
             g.drawLine(BOARD_SIZE * col, 0, BOARD_SIZE * col, BOARD_SIZE * BOARD_HEIGTH);
         }
 
+    }
+
+    public Color[][] getBoard(){
+        return board;
     }
 
     @Override 
